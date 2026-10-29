@@ -23,6 +23,30 @@ For people, contributor or team grids (source: https://wknd.site/us/en/about-us.
 - Links to Facebook, Twitter/X and Instagram become icon-only buttons; the network name stays available to screen readers. Other links keep their visible text.
 - Use plain Cards for content teasers with rectangular images, and Columns for non-repeating side-by-side layouts.
 
+### Dynamic — `Cards (Dynamic)` → `class="cards dynamic"`
+
+Index-driven article teasers (source: "All Articles" on https://wknd.site/us/en/magazine.html). One row, one cell:
+
+| Cell |
+| --- |
+| Path prefix of the pages to list, optionally followed by `\| <limit>`, e.g. `/us/en/magazine` or `/us/en/magazine \| 4` |
+
+- Pages come from the query index (`/query-index.json`, via `scripts/query-index.js` `queryPages({ prefix, limit })`). The prefix page itself and the current page are excluded.
+- Each card: linked image, linked uppercase title (h3), single-line description cut off with an ellipsis.
+- The authored configuration is never shown. If the index is missing or has no matching pages, the block renders nothing.
+- The prefix can also be authored as a link.
+
+### Member Only — `Cards (Member Only)` → `class="cards member-only"`
+
+Locked teasers for signed-out visitors (source: "Members Only" on the magazine page). One row per card, 2 cells:
+
+| Cell 1 | Cell 2 |
+| --- | --- |
+| Image | Title (h3), description paragraph, then a short last paragraph used as the "Read More" call to action (plain text or a link) |
+
+- The body renders above the image. Card content is faded to 65% opacity; the yellow lock ribbon in the top-left corner stays at full opacity.
+- Rows without content are skipped; a missing image or body is fine.
+
 ## Universal Editor fields
 
 N/A (Document Authoring project)

@@ -65,6 +65,90 @@
           ]
         }
       ]
+    },
+    {
+      "name": "magazine",
+      "urls": [
+        "https://wknd.site/us/en/magazine.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/magazine.html",
+      "description": "Magazine landing page: page title, featured article teaser, index-driven All Articles list, and Members Only locked teasers",
+      "blocks": [
+        {
+          "name": "columns-featured",
+          "instances": [
+            "main div.teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards-dynamic",
+          "instances": [
+            "main div.image-list.list"
+          ]
+        },
+        {
+          "name": "cards-member-only",
+          "instances": [
+            "main div.teaser.cmp-teaser--secure:not(div.teaser.cmp-teaser--secure + div.teaser.cmp-teaser--secure)"
+          ]
+        }
+      ],
+      "urlPattern": "/us/en/magazine",
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Page title",
+          "selector": [
+            "main div.title.aem-GridColumn:not(.cmp-title--underline)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "main div.title.aem-GridColumn:not(.cmp-title--underline) h1"
+          ]
+        },
+        {
+          "id": "section-2",
+          "name": "Featured article",
+          "selector": [
+            "main div.teaser.cmp-teaser--featured"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-featured"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "All Articles",
+          "selector": [
+            "main div.title.cmp-title--underline.aem-GridColumn"
+          ],
+          "style": "yellow-underline",
+          "blocks": [
+            "cards-dynamic"
+          ],
+          "defaultContent": [
+            "main div.title.cmp-title--underline.aem-GridColumn h2"
+          ]
+        },
+        {
+          "id": "section-4",
+          "name": "Members Only",
+          "selector": [
+            "main div.title.cmp-title--underline.aem-GridColumn ~ div.title.cmp-title--underline.aem-GridColumn"
+          ],
+          "style": "yellow-underline, custom-separator",
+          "blocks": [
+            "cards-member-only"
+          ],
+          "defaultContent": [
+            "main div.title.cmp-title--underline.aem-GridColumn h2",
+            "main div.text.aem-GridColumn"
+          ]
+        }
+      ]
     }
   ]
 }
