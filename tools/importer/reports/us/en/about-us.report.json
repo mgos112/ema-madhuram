@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/about-us.html",
+  "path": "us/en/about-us",
+  "timestamp": "2026-10-29T12:00:25.065Z",
+  "title": "About Us",
+  "template": "about-us",
+  "blocks": [
+    "cards-profile",
+    "cards-profile"
+  ]
+}
