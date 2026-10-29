@@ -22,6 +22,9 @@ export default function transform(hookName, element, payload) {
       // Tracking / sync iframes
       'iframe#destination_publishing_iframe_wkndsite_0',
       'iframe[src*="demdex.net"]',
+      // Decorative separator components: their inner <hr> would become a section break.
+      // The rule is reproduced by the `custom-separator` section style instead.
+      'main div.separator',
     ]);
   }
 
