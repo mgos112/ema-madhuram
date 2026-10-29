@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "about-us",
+      "urls": [
+        "https://wknd.site/us/en/about-us.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/about-us.html",
+      "description": "About Us page: page title, then two groups (Our Contributors, WKND Guides) each with an underlined heading, an intro paragraph and a grid of profile cards",
+      "urlPattern": "/us/en/*",
+      "blocks": [
+        {
+          "name": "cards-profile",
+          "instances": [
+            "main div.text.cmp-text--font-small + section.experiencefragment.cmp-experience-fragment--contributor"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Page title",
+          "selector": [
+            "main div.title.aem-GridColumn:not(.cmp-title--underline)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "main div.title.aem-GridColumn:not(.cmp-title--underline) h1"
+          ]
+        },
+        {
+          "id": "section-2",
+          "name": "Our Contributors",
+          "selector": [
+            "main div.title.cmp-title--underline.aem-GridColumn:nth-of-type(2)",
+            "main div.title.cmp-title--underline.aem-GridColumn"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-profile"
+          ],
+          "defaultContent": [
+            "main div.title.cmp-title--underline.aem-GridColumn h2",
+            "main div.text.cmp-text--font-small.aem-GridColumn"
+          ]
+        },
+        {
+          "id": "section-3",
+          "name": "WKND Guides",
+          "selector": [
+            "main div.title.cmp-title--underline.aem-GridColumn:nth-of-type(4)",
+            "main div.title.cmp-title--underline.aem-GridColumn ~ div.title.cmp-title--underline.aem-GridColumn"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-profile"
+          ],
+          "defaultContent": [
+            "main div.title.cmp-title--underline.aem-GridColumn h2",
+            "main div.text.cmp-text--font-small.aem-GridColumn"
+          ]
+        }
+      ]
+    }
+  ]
+}

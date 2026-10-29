@@ -1,0 +1,11 @@
+{
+  "type": "da",
+  "sites": {
+    "ema-madhuram": {
+      "previewOrg": "mgos112",
+      "previewSite": "ema-madhuram",
+      "contentHostUrl": "https://content.da.live/mgos112/ema-madhuram/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}
