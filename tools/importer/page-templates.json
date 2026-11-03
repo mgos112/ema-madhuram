@@ -153,7 +153,11 @@
     {
       "name": "magazine-article",
       "urls": [
-        "https://wknd.site/us/en/magazine/guide-la-skateparks.html"
+        "https://wknd.site/us/en/magazine/guide-la-skateparks.html",
+        "https://wknd.site/us/en/magazine/arctic-surfing.html",
+        "https://wknd.site/us/en/magazine/san-diego-surf.html",
+        "https://wknd.site/us/en/magazine/ski-touring.html",
+        "https://wknd.site/us/en/magazine/western-australia.html"
       ],
       "representativeUrl": "https://wknd.site/us/en/magazine/guide-la-skateparks.html",
       "description": "Magazine article: hero image, breadcrumb, article body with byline (left column) and a share rail with optional PDF download and up-next stories (right column)",
