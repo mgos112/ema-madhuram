@@ -20,6 +20,13 @@ function resolveImages(root, base) {
     img.src = new URL(img.getAttribute('src'), base).href;
     img.loading = 'lazy';
   });
+  // previewed fragments wrap images in <picture> with relative srcset candidates
+  root.querySelectorAll('source[srcset]').forEach((source) => {
+    source.srcset = source.getAttribute('srcset').split(',').map((candidate) => {
+      const [url, ...descriptor] = candidate.trim().split(/\s+/);
+      return [new URL(url, base).href, ...descriptor].join(' ');
+    }).join(', ');
+  });
 }
 
 /**
