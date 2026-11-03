@@ -20,8 +20,8 @@
   --link-hover-color: #1d3ecf;
 
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  --body-font-family: 'Source Sans Pro', source-sans-pro-fallback, 'Helvetica Neue', helvetica, arial, sans-serif;
+  --heading-font-family: asar, asar-fallback, serif;
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -37,20 +37,21 @@
   --heading-font-size-xs: 22px;
 
   /* nav height */
-  --nav-height: 64px;
+  --nav-height: 117px;
+  --nav-drawer-width: 275px;
 }
 
 /* fallback fonts */
 @font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
+  font-family: source-sans-pro-fallback;
+  size-adjust: 92.5%;
   src: local('Arial');
 }
 
 @font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+  font-family: asar-fallback;
+  size-adjust: 103%;
+  src: local('Times New Roman');
 }
 
 @media (width >= 900px) {
@@ -86,6 +87,28 @@ body.appear {
 
 header {
   height: var(--nav-height);
+  background-color: var(--background-color);
+}
+
+@media (width >= 900px) {
+  :root {
+    --nav-height: 194px;
+  }
+}
+
+/* mobile push drawer (header block): page content slides right while the drawer is open */
+body > main,
+body > footer {
+  transition: transform 0.5s;
+}
+
+body.nav-open {
+  overflow-x: hidden;
+}
+
+body.nav-open > main,
+body.nav-open > footer {
+  transform: translateX(var(--nav-drawer-width));
 }
 
 header .header,
@@ -107,7 +130,7 @@ h6 {
   margin-top: 0.8em;
   margin-bottom: 0.25em;
   font-family: var(--heading-font-family);
-  font-weight: 600;
+  font-weight: 400; /* Asar ships a single (regular) weight */
   line-height: 1.25;
   scroll-margin: 40px;
 }
