@@ -323,3 +323,30 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+/* aside: article + byline in a 2fr column, the share rail (cards button) in a 1fr column */
+@media (width >= 900px) {
+  main > .section.aside {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 48px;
+    align-items: start;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  main > .section.aside > div {
+    grid-column: 1;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main > .section.aside > .cards-wrapper:has(> .cards.button) {
+    grid-column: 2;
+    grid-row: 1 / span 99;
+  }
+}

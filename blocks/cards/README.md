@@ -23,6 +23,26 @@ For people, contributor or team grids (source: https://wknd.site/us/en/about-us.
 - Links to Facebook, Twitter/X and Instagram become icon-only buttons; the network name stays available to screen readers. Other links keep their visible text.
 - Use plain Cards for content teasers with rectangular images, and Columns for non-repeating side-by-side layouts.
 
+### Profile, Horizontal — `Cards (Profile, Horizontal)` → `class="cards profile horizontal"`
+
+Article author byline (source: https://wknd.site/us/en/magazine/guide-la-skateparks.html). Same 2-cell content model as Profile (portrait | name h3, role, social links).
+
+- Layout: 72px circular avatar beside the name (28/34/40px at mobile/768/1024) and muted uppercase 14px role; the dark social bar is the card's third child. Below 1024px the bar wraps onto its own line; from 1024px everything sits on one row, spaced apart. Max width 768px, with a 1px #ebebeb rule above.
+
+### Button — `Cards (Button)` → `class="cards button"`
+
+Article share rail (source: the sidebar of the LA Skateparks article). Rows are recognised by content, and **every row type is optional**, so articles without a PDF or without up-next stories simply leave those rows out:
+
+| Row | Content |
+| --- | --- |
+| Title (optional) | Heading without links, e.g. "SHARE THIS STORY" |
+| PDF panel (optional) | Title link to the PDF (h3), description paragraph, a list of file properties (filename, size, format — values only), then the plain download link to the PDF |
+| Story (optional, repeatable) | Link to the story, then its date (in the same cell or a second cell) |
+
+- PDF links get a `download` attribute (the file name); the last PDF link outside the heading becomes the dark download button with a down-arrow icon. Host the PDF next to the page in DA; never link to AEM DAM `coredownload.pdf` paths.
+- Each story renders as a full-card link (title + muted date) with a 5px #ebebeb left border; hover/focus turns it yellow with a black border.
+- The whole rail is uppercase.
+
 ### Dynamic — `Cards (Dynamic)` → `class="cards dynamic"`
 
 Index-driven article teasers (source: "All Articles" on https://wknd.site/us/en/magazine.html). One row, one cell:

@@ -149,6 +149,68 @@
           ]
         }
       ]
+    },
+    {
+      "name": "magazine-article",
+      "urls": [
+        "https://wknd.site/us/en/magazine/guide-la-skateparks.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/magazine/guide-la-skateparks.html",
+      "description": "Magazine article: hero image, breadcrumb, article body with byline (left column) and a share rail with optional PDF download and up-next stories (right column)",
+      "blocks": [
+        {
+          "name": "breadcrumb",
+          "instances": [
+            "main div.breadcrumb"
+          ]
+        },
+        {
+          "name": "cards-profile-horizontal",
+          "instances": [
+            "main .cmp-experiencefragment:not(.cmp-experiencefragment--header):not(.cmp-experiencefragment--footer)"
+          ]
+        },
+        {
+          "name": "cards-button",
+          "instances": [
+            "main aside.cmp-layoutcontainer--sidebar"
+          ]
+        }
+      ],
+      "urlPattern": "/us/en/magazine/*",
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero and breadcrumb",
+          "selector": [
+            "main div.image:not(.byline)"
+          ],
+          "style": null,
+          "blocks": [
+            "breadcrumb"
+          ],
+          "defaultContent": [
+            "main div.image:not(.byline) img"
+          ]
+        },
+        {
+          "id": "section-2",
+          "name": "Article",
+          "selector": [
+            "main main"
+          ],
+          "style": "aside, yellow-underline",
+          "blocks": [
+            "cards-profile-horizontal",
+            "cards-button"
+          ],
+          "defaultContent": [
+            "main main h1",
+            "main main div.title h4",
+            "main main article.contentfragment"
+          ]
+        }
+      ]
     }
   ]
 }
