@@ -65,7 +65,7 @@
 
 .accordion.divider details {
   border: 0;
-  border-bottom: 1px solid var(--accordion-divider-color);
+  border-bottom: 2px solid var(--accordion-divider-color);
 }
 
 .accordion.divider details + details {
@@ -74,7 +74,7 @@
 
 .accordion.divider details summary {
   padding: 13px calc(var(--accordion-icon-size) + 24px) 13px calc(13px + 0.5em);
-  color: var(--text-color);
+  color: #000;
   font-family: var(--body-font-family);
   font-size: 16px;
   font-weight: 600;
