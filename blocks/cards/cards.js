@@ -152,12 +152,121 @@ function decorateProfile(block) {
     if (bodyCell) {
       decorateProfileBody(bodyCell);
       li.append(bodyCell);
+      // Horizontal (article byline): the social bar becomes the card's third child.
+      const social = bodyCell.querySelector(':scope > .cards-profile-social');
+      if (social && block.classList.contains('horizontal')) li.append(social);
     }
     ul.append(li);
   });
 
   optimizeImages(ul, '400');
   block.replaceChildren(ul);
+}
+
+const DOWNLOAD_ICON = '<path d="M3 3h18v18H3z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 6h2v7.2l2.6-2.6 1.4 1.4-5 5-5-5 1.4-1.4 2.6 2.6z" fill="currentColor"/>';
+
+function isPdfLink(a) {
+  try {
+    return /\.pdf$/i.test(new URL(a.href, window.location.href).pathname);
+  } catch (e) {
+    return false;
+  }
+}
+
+/* PDF panel: title link, description, file properties (values only) and a download button. */
+function buildPdfPanel(cell) {
+  const panel = document.createElement('div');
+  panel.className = 'cards-card-body cards-button-pdf';
+  panel.append(...cell.childNodes);
+
+  const links = [...panel.querySelectorAll('a')].filter(isPdfLink);
+  links.forEach((a) => {
+    a.classList.remove('button', 'primary', 'secondary', 'accent');
+    const wrapper = a.closest('p');
+    if (wrapper) wrapper.classList.remove('button-wrapper');
+    const filename = decodeURIComponent(new URL(a.href, window.location.href).pathname.split('/').pop());
+    a.setAttribute('download', filename);
+  });
+
+  // The last PDF link outside a heading is the download button.
+  const button = links.filter((a) => !a.closest('h1, h2, h3, h4, h5, h6')).pop();
+  if (button) {
+    button.classList.add('cards-button-download');
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.innerHTML = DOWNLOAD_ICON;
+    button.prepend(svg);
+  }
+
+  const heading = panel.querySelector('h1, h2, h3, h4, h5, h6');
+  if (heading) heading.classList.add('cards-button-pdf-title');
+  panel.querySelectorAll(':scope > ul, :scope > ol').forEach((list) => {
+    list.classList.add('cards-button-pdf-properties');
+    [...list.children].forEach((item) => item.classList.add('cards-button-pdf-property'));
+  });
+  return panel;
+}
+
+/* Story card: the whole card is one link with the title and a muted date. */
+function buildStory(cells) {
+  const content = document.createElement('div');
+  cells.forEach((cell) => content.append(...cell.childNodes));
+  const link = content.querySelector('a[href]');
+  if (!link) return null;
+
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.href = link.getAttribute('href');
+  a.className = 'cards-button-story';
+  const title = document.createElement('span');
+  title.className = 'cards-button-story-title';
+  title.textContent = link.textContent.trim();
+  a.append(title);
+
+  const rest = content.textContent.replace(link.textContent, '').trim();
+  if (rest) {
+    const date = document.createElement('span');
+    date.className = 'cards-button-story-date';
+    date.textContent = rest;
+    a.append(date);
+  }
+  li.append(a);
+  return li;
+}
+
+/*
+ * Share rail: optional title, optional PDF panel, optional list of story cards.
+ * Rows are recognised by content, so authors can omit or reorder any of them.
+ */
+function decorateShareRail(block) {
+  let title = null;
+  let pdfPanel = null;
+  const stories = document.createElement('ul');
+
+  [...block.children].forEach((row) => {
+    const cells = [...row.children].filter((cell) => cell.textContent.trim());
+    if (!cells.length) return;
+    const links = [...row.querySelectorAll('a[href]')];
+
+    if (links.some(isPdfLink)) {
+      if (!pdfPanel) pdfPanel = buildPdfPanel(cells[0]);
+      else cells.forEach((cell) => pdfPanel.append(...cell.childNodes));
+    } else if (!links.length) {
+      if (!title) {
+        title = document.createElement('div');
+        title.className = 'cards-title';
+        cells.forEach((cell) => title.append(...cell.childNodes));
+      }
+    } else {
+      const story = buildStory(cells);
+      if (story) stories.append(story);
+    }
+  });
+
+  const children = [title, pdfPanel, stories.children.length ? stories : null].filter(Boolean);
+  block.replaceChildren(...children);
 }
 
 /* Members-only teasers: body above the image, faded, with a yellow lock ribbon. */
@@ -269,6 +378,10 @@ export default async function decorate(block) {
   }
   if (block.classList.contains('dynamic')) {
     await decorateDynamic(block);
+    return;
+  }
+  if (block.classList.contains('button')) {
+    decorateShareRail(block);
     return;
   }
 

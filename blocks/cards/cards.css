@@ -120,6 +120,105 @@
   padding: 0 12px;
 }
 
+/* Button variant (article share rail, playbook E4 3b): title, optional PDF panel, optional stories. */
+.cards.button {
+  padding-top: 25px;
+  text-transform: uppercase;
+}
+
+.cards.button .cards-title,
+.cards.button .cards-title > * {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cards.button .cards-button-pdf {
+  margin: 50px 0;
+}
+
+.cards.button .cards-button-pdf > * {
+  margin: 0 0 12px;
+}
+
+.cards.button .cards-button-pdf-title {
+  font-family: var(--body-font-family);
+  font-size: 18px;
+}
+
+.cards.button .cards-button-pdf-title a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* File properties: values only, side by side; the last one (format) on its own line. */
+.cards.button .cards-button-pdf-properties {
+  display: flow-root;
+  padding: 0;
+  list-style: none;
+  color: dimgray;
+  font-size: 12px;
+}
+
+.cards.button .cards-button-pdf-property {
+  float: left;
+  margin-right: 16px;
+}
+
+.cards.button .cards-button-pdf-property:last-child {
+  clear: left;
+}
+
+.cards.button .cards-button-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 48px;
+  background-color: #202020;
+  color: #fff;
+  text-decoration: none;
+}
+
+.cards.button .cards-button-download svg {
+  width: 24px;
+  height: 24px;
+}
+
+.cards.button > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cards.button > ul > li {
+  border: 0;
+  background-color: transparent;
+}
+
+.cards.button .cards-button-story {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  height: 90pt;
+  padding: 8px 16px;
+  border-left: 5px solid #ebebeb;
+  color: #000;
+  text-decoration: none;
+}
+
+.cards.button .cards-button-story:hover,
+.cards.button .cards-button-story:focus-visible {
+  border-left-color: #000;
+  background-color: var(--brand-primary, #ffea00);
+}
+
+.cards.button .cards-button-story-date {
+  color: dimgray;
+  font-size: 14px;
+}
+
 /* Dynamic variant (index-driven article teasers): structural CSS only. */
 .cards.dynamic:empty {
   display: none;
@@ -190,4 +289,85 @@
   width: 14px;
   height: 14px;
   color: #000;
+}
+
+/* Profile + horizontal (article byline, playbook E4 3a): avatar, name/role, social bar. */
+.cards.profile.horizontal {
+  max-width: 768px;
+  border-top: 1px solid #ebebeb;
+  padding-top: 24px;
+}
+
+.cards.profile.horizontal > ul {
+  grid-template-columns: 1fr;
+}
+
+.cards.profile.horizontal > ul > li {
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 16px 24px;
+  text-align: left;
+}
+
+.cards.profile.horizontal .cards-profile-card-image {
+  width: 72px;
+  flex: 0 0 72px;
+}
+
+.cards.profile.horizontal .cards-profile-card-body {
+  flex: 1 1 0;
+  align-items: flex-start;
+  margin-top: 0;
+}
+
+.cards.profile.horizontal .cards-profile-name {
+  font-family: var(--heading-font-family);
+  font-size: 28px;
+  text-transform: none;
+}
+
+.cards.profile.horizontal .cards-profile-role {
+  margin-top: 4px;
+  color: #6e6e6e;
+  font-size: 14px;
+}
+
+.cards.profile.horizontal .cards-profile-social {
+  flex: 1 0 100%;
+  justify-content: space-between;
+  margin: 0;
+  background-color: #1d1d1d;
+}
+
+.cards.profile.horizontal .cards-profile-social-link svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (width < 900px) {
+  .cards.profile.horizontal {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+@media (width >= 768px) {
+  .cards.profile.horizontal .cards-profile-name {
+    font-size: 34px;
+  }
+}
+
+@media (width >= 1024px) {
+  .cards.profile.horizontal > ul > li {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .cards.profile.horizontal .cards-profile-social {
+    flex: 0 0 auto;
+  }
+
+  .cards.profile.horizontal .cards-profile-name {
+    font-size: 40px;
+  }
 }
