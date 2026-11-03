@@ -23,19 +23,36 @@ function resolveImages(root, base) {
     img.src = new URL(img.getAttribute('src'), base).href;
     img.loading = 'eager';
   });
+  // previewed fragments wrap images in <picture> with relative srcset candidates
+  root.querySelectorAll('source[srcset]').forEach((source) => {
+    source.srcset = source.getAttribute('srcset').split(',').map((candidate) => {
+      const [url, ...descriptor] = candidate.trim().split(/\s+/);
+      return [new URL(url, base).href, ...descriptor].join(' ');
+    }).join(', ');
+  });
 }
 
 /**
- * Text of an element without the text of its nested lists.
+ * Text of a list item without the text of its nested lists
+ * (works whether the text sits directly in the item or in a wrapping <p>).
  * @param {Element} el list item
  * @returns {string}
  */
 function ownText(el) {
-  return [...el.childNodes]
-    .filter((n) => n.nodeType === Node.TEXT_NODE)
-    .map((n) => n.textContent)
-    .join('')
-    .trim();
+  const clone = el.cloneNode(true);
+  clone.querySelectorAll('ul, ol').forEach((list) => list.remove());
+  return clone.textContent.replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * The item's own image (not one from a nested list), as the <picture> when wrapped in one.
+ * @param {Element} el list item
+ * @returns {{node: Element, img: HTMLImageElement}|null}
+ */
+function ownImage(el) {
+  const img = [...el.querySelectorAll('img')].find((i) => i.closest('li') === el);
+  if (!img) return null;
+  return { node: img.closest('picture') || img, img };
 }
 
 function normalizePath(href) {
@@ -84,10 +101,10 @@ function buildLocale(item) {
   toggle.className = 'nav-locale-toggle';
   toggle.setAttribute('aria-controls', 'nav-locale-panel');
   toggle.setAttribute('aria-label', `Toggle Language ${label}`);
-  const flag = item.querySelector(':scope > img');
+  const flag = ownImage(item);
   if (flag) {
-    flag.alt = '';
-    toggle.append(flag);
+    flag.img.alt = '';
+    toggle.append(flag.node);
   }
   const text = document.createElement('span');
   text.className = 'nav-locale-label';
@@ -105,14 +122,12 @@ function buildLocale(item) {
       const name = document.createElement('span');
       name.className = 'nav-locale-group-name';
       name.textContent = ownText(group);
-      [...group.childNodes].forEach((n) => {
-        if (n.nodeType === Node.TEXT_NODE) n.remove();
-      });
-      const groupFlag = group.querySelector(':scope > img');
-      if (groupFlag) groupFlag.classList.add('nav-locale-flag');
+      const groupFlag = ownImage(group);
+      if (groupFlag) groupFlag.img.classList.add('nav-locale-flag');
       const links = group.querySelector(':scope > ul');
-      group.insertBefore(name, links);
       if (links) links.classList.add('nav-locale-links');
+      // rebuild as flag, name, links (drops wrapping paragraphs from previewed content)
+      group.replaceChildren(...[groupFlag && groupFlag.node, name, links].filter(Boolean));
       group.querySelectorAll('a').forEach((a) => {
         if (a.textContent.trim() === label) a.setAttribute('aria-current', 'true');
       });

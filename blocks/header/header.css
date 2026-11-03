@@ -27,6 +27,8 @@ header nav a:any-link {
 
 /* utility bar */
 header nav .nav-utility {
+  position: relative;
+  z-index: 1; /* keep the locale panel above the main bar */
   height: 25px;
   background-color: rgb(32 32 32);
   color: rgb(235 235 235);
@@ -377,6 +379,7 @@ header nav[aria-expanded='true'] .nav-tools {
   header nav .nav-sections,
   header nav[aria-expanded='true'] .nav-sections {
     position: static;
+    z-index: auto; /* flex items honour z-index; the drawer's would lift the links over the locale panel */
     width: auto;
     padding-top: 0;
     overflow: visible;
