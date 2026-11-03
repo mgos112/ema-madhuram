@@ -1,0 +1,13 @@
+{
+  "variantName": "accordion",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Collapsible question/answer rows rendered as details/summary. Divider option: no boxes or fills; each item separated by a 1px #ebebeb bottom rule. Question in the body font (Source Sans Pro), weight 600, uppercase via CSS, 16px, padding-left .5em. Plus icon on the right made of two 16x2 bars that becomes a minus when the row is open. Answer body justified, body font. All items start collapsed.",
+  "contentPattern": "Rows of 2 cells: question (plain text) | answer (rich text paragraphs). Rows without a question are dropped; a missing answer cell renders an empty body; extra cells are appended to the answer.",
+  "options": [
+    { "class": "divider", "label": "Divider" }
+  ],
+  "memberVariantIds": [],
+  "usage": "FAQ lists and other question/answer content where each item expands in place, e.g. https://wknd.site/us/en/faqs.html.",
+  "reuseGuidance": "Use the plain accordion for boxed items. Add the divider option (Accordion (Divider)) for flat rows separated by a light rule with a plus/minus toggle. Keep question wording as authored; uppercase is applied by CSS."
+}

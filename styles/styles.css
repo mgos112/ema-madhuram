@@ -347,6 +347,58 @@ main .section.highlight {
   padding: 40px 0;
 }
 
+/* yellow-underline: short brand rule under default-content h2s (and the FAQs page title) */
+main .section.yellow-underline .default-content-wrapper h2::after,
+main .section.yellow-underline.faq-aside .default-content-wrapper h1::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--brand-primary, #ffea00);
+}
+
+/* faq-aside: intro + accordion, then the contact aside; side by side from 900px */
+main .section.faq-aside .default-content-wrapper p {
+  line-height: 2.5;
+  text-align: justify;
+}
+
+main .section.faq-aside > .default-content-wrapper:last-child h3 {
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+main .section.faq-aside > .default-content-wrapper:last-child p {
+  font-size: 14px;
+  text-align: left;
+}
+
+@media (width >= 900px) {
+  main > .section.faq-aside {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 64px;
+    align-items: start;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  main > .section.faq-aside > div {
+    grid-column: 1;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main > .section.faq-aside > .default-content-wrapper:last-child:not(:first-child) {
+    grid-column: 2;
+    grid-row: 1 / span 99;
+  }
+}
+
 /* aside: article + byline in a 2fr column, the share rail (cards button) in a 1fr column */
 @media (width >= 900px) {
   main > .section.aside {
