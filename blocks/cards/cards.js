@@ -1,6 +1,23 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
+import { queryPages } from '../../scripts/query-index.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+
+const LOCK_ICON = '<path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h1zm2 0h6V7a3 3 0 0 0-6 0v3z" fill="currentColor"/>';
+
+/* Optimize same-origin images only; external (not yet ingested) images are left as they are. */
+function optimizeImages(container, width) {
+  container.querySelectorAll('picture > img').forEach((img) => {
+    const url = new URL(img.src, window.location.href);
+    if (url.origin !== window.location.origin || /\.svg$/i.test(url.pathname)) return;
+    img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width }]));
+  });
+}
+
+/* Image-only cell vs. body cell, as in the default cards decoration. */
+function isImageCell(cell) {
+  return cell.children.length === 1 && !!cell.querySelector('picture') && !cell.textContent.trim();
+}
 
 /* Minimal inline icons for the profile variant (no /icons dependency). */
 const SOCIAL_ICONS = {
@@ -139,18 +156,119 @@ function decorateProfile(block) {
     ul.append(li);
   });
 
-  ul.querySelectorAll('picture > img').forEach((img) => {
-    const url = new URL(img.src, window.location.href);
-    if (url.origin !== window.location.origin || /\.svg$/i.test(url.pathname)) return;
-    img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]));
-  });
-
+  optimizeImages(ul, '400');
   block.replaceChildren(ul);
 }
 
-export default function decorate(block) {
+/* Members-only teasers: body above the image, faded, with a yellow lock ribbon. */
+function decorateMemberOnly(block) {
+  const ul = document.createElement('ul');
+
+  [...block.children].forEach((row) => {
+    const cells = [...row.children];
+    if (!cells.some((cell) => cell.textContent.trim() || cell.querySelector('picture, img'))) return;
+
+    const li = document.createElement('li');
+    li.className = 'cards-member-only-card';
+
+    const ribbon = document.createElement('span');
+    ribbon.className = 'cards-member-only-lock';
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Members only');
+    svg.innerHTML = LOCK_ICON;
+    ribbon.append(svg);
+    li.append(ribbon);
+
+    const images = cells.filter(isImageCell);
+    const bodies = cells.filter((cell) => !isImageCell(cell) && cell.textContent.trim());
+    bodies.forEach((body) => {
+      body.className = 'cards-card-body';
+      // A trailing short paragraph is the "Read More" call to action.
+      const paragraphs = body.querySelectorAll(':scope > p');
+      if (paragraphs.length > 1) paragraphs[paragraphs.length - 1].classList.add('cards-member-only-cta');
+      li.append(body);
+    });
+    images.forEach((image) => {
+      image.className = 'cards-card-image';
+      li.append(image);
+    });
+    ul.append(li);
+  });
+
+  optimizeImages(ul, '750');
+  block.replaceChildren(ul);
+}
+
+/* Reads "<path prefix> | <limit>" from the block; the prefix may also be authored as a link. */
+function readDynamicConfig(block) {
+  const [rawPrefix = '', rawLimit = ''] = block.textContent.split('|').map((part) => part.trim());
+  const link = block.querySelector('a[href]');
+  const prefix = link ? new URL(link.href, window.location.href).pathname : rawPrefix;
+  const limit = parseInt(rawLimit, 10);
+  return { prefix, limit: Number.isNaN(limit) ? undefined : limit };
+}
+
+function buildIndexCard(page) {
+  const li = document.createElement('li');
+
+  if (page.image) {
+    const imageCell = document.createElement('div');
+    imageCell.className = 'cards-card-image';
+    const imageLink = document.createElement('a');
+    imageLink.href = page.path;
+    imageLink.tabIndex = -1;
+    imageLink.setAttribute('aria-hidden', 'true');
+    imageLink.append(createOptimizedPicture(page.image, page.title || '', false, [{ width: '750' }]));
+    imageCell.append(imageLink);
+    li.append(imageCell);
+  }
+
+  const body = document.createElement('div');
+  body.className = 'cards-card-body';
+  const heading = document.createElement('h3');
+  const titleLink = document.createElement('a');
+  titleLink.href = page.path;
+  titleLink.textContent = page.title || page.path;
+  heading.append(titleLink);
+  body.append(heading);
+  if (page.description) {
+    const description = document.createElement('p');
+    description.className = 'cards-dynamic-description';
+    description.textContent = page.description;
+    body.append(description);
+  }
+  li.append(body);
+  return li;
+}
+
+/* Index-driven cards: lists pages below a path prefix from the query index. */
+async function decorateDynamic(block) {
+  const { prefix, limit } = readDynamicConfig(block);
+  // Never show the raw configuration, even if the index is unavailable.
+  block.replaceChildren();
+  if (!prefix) return;
+
+  const pages = await queryPages({ prefix, limit });
+  if (!pages.length) return;
+
+  const ul = document.createElement('ul');
+  pages.forEach((page) => ul.append(buildIndexCard(page)));
+  block.replaceChildren(ul);
+}
+
+export default async function decorate(block) {
   if (block.classList.contains('profile')) {
     decorateProfile(block);
+    return;
+  }
+  if (block.classList.contains('member-only')) {
+    decorateMemberOnly(block);
+    return;
+  }
+  if (block.classList.contains('dynamic')) {
+    await decorateDynamic(block);
     return;
   }
 

@@ -119,3 +119,75 @@
 .cards.profile .cards-profile-social-other {
   padding: 0 12px;
 }
+
+/* Dynamic variant (index-driven article teasers): structural CSS only. */
+.cards.dynamic:empty {
+  display: none;
+}
+
+.cards.dynamic .cards-card-body h3 {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cards.dynamic .cards-card-body h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cards.dynamic .cards-dynamic-description {
+  margin: 8px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Member-only variant: faded teaser (body above image) with a yellow lock ribbon. */
+.cards.member-only > ul > li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cards.member-only > ul > li > .cards-card-body,
+.cards.member-only > ul > li > .cards-card-image {
+  opacity: 0.65;
+}
+
+.cards.member-only > ul > li > .cards-card-image {
+  margin-top: auto;
+}
+
+.cards.member-only .cards-card-body h3 {
+  margin: 0;
+}
+
+.cards.member-only .cards-member-only-cta {
+  display: inline-block;
+  margin: 16px 0 0;
+  padding: 8px 16px;
+  background-color: #ebebeb;
+  text-transform: uppercase;
+}
+
+/* The ribbon sits outside the faded content so it keeps full opacity. */
+.cards.member-only .cards-member-only-lock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  border-top: 40px solid var(--brand-primary, #ffea00);
+  border-right: 40px solid transparent;
+}
+
+.cards.member-only .cards-member-only-lock svg {
+  position: absolute;
+  top: -36px;
+  left: 4px;
+  width: 14px;
+  height: 14px;
+  color: #000;
+}

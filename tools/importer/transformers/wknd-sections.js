@@ -5,8 +5,8 @@
  * Section transformer for wknd.site.
  * Inserts <hr> section breaks before each non-first section (beforeTransform,
  * while parser targets still exist). For styled sections a Section Metadata
- * block is added in afterTransform; the about-us template has no styled
- * sections, so only breaks are produced.
+ * block is added in afterTransform at the end of the section. Multiple styles
+ * are comma-separated (e.g. 'yellow-underline, custom-separator').
  */
 const MARKER = 'data-excat-section-id';
 

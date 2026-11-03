@@ -31,3 +31,30 @@
     order: unset;
   }
 }
+
+/* Featured variant: image beside a grey text panel; structural CSS only. */
+.columns.featured .columns-featured-text {
+  padding: 32px;
+  background-color: var(--brand-third, #ebebeb);
+}
+
+.columns.featured .columns-featured-pretitle {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.columns.featured .columns-img-col img {
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (width >= 900px) {
+  .columns.featured > div {
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .columns.featured > div > .columns-img-col {
+    flex: 2;
+  }
+}
