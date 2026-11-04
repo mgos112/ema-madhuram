@@ -1,0 +1,26 @@
+{
+  "variantName": "columns",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "purpose": "rows of cells laid out side by side from 900px, stacked on mobile with image-only cells first",
+    "description": "featured: image takes two thirds from 900px with the text in a grey panel beside it; the paragraph above the heading is the label. spec: single-column list of trip facts, each item with a 5px #ebebeb left border, 18px left padding and 22.5px gap; label 12px uppercase #696969, value 14px weight 600 uppercase #202020."
+  },
+  "contentPattern": {
+    "structure": "each cell of a row becomes a column. featured: one row, image | label paragraph, h2 title, description, bold CTA link. spec: rows of label | value (plain text) rendered as a definition list; missing values give an empty dd, extra cells merge into the value, empty rows are dropped",
+    "source": "https://wknd.site/us/en/magazine.html, https://wknd.site/us/en/adventures/bali-surf-camp.html"
+  },
+  "options": [
+    {
+      "class": "featured",
+      "label": "Featured"
+    },
+    {
+      "class": "spec",
+      "label": "Spec"
+    }
+  ],
+  "memberVariantIds": [],
+  "usage": "Side-by-side content; featured article teaser on the magazine page; trip facts (Activity, Adventure Type, Trip Length, Group Size, Difficulty, Price) on adventure detail pages.",
+  "reuseGuidance": "Use Columns (Featured) for an image + grey text panel teaser. Use Columns (Spec) for label/value fact lists. Use plain columns for generic side-by-side content."
+}

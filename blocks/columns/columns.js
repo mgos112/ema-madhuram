@@ -27,4 +27,29 @@ export default function decorate(block) {
       }
     });
   }
+
+  if (block.classList.contains('spec')) {
+    // spec list: each row is label | value, rendered as a definition list
+    const dl = document.createElement('dl');
+    dl.className = 'columns-spec-list';
+    [...block.children].forEach((row) => {
+      const [labelCell, valueCell, ...extra] = [...row.children];
+      const label = labelCell ? labelCell.textContent.trim() : '';
+      const hasValue = [valueCell, ...extra].some((c) => c && c.textContent.trim());
+      if (!label && !hasValue) return;
+      const item = document.createElement('div');
+      item.className = 'columns-spec-item';
+      const dt = document.createElement('dt');
+      dt.textContent = label;
+      const dd = document.createElement('dd');
+      [valueCell, ...extra].filter(Boolean).forEach((cell, idx) => {
+        if (idx && dd.textContent.trim()) dd.append(' ');
+        const only = cell.children.length === 1 && cell.firstElementChild.tagName === 'P';
+        dd.append(...(only ? cell.firstElementChild.childNodes : cell.childNodes));
+      });
+      item.append(dt, dd);
+      dl.append(item);
+    });
+    block.replaceChildren(dl);
+  }
 }
