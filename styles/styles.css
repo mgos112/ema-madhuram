@@ -357,6 +357,27 @@ main .section.yellow-underline.faq-aside .default-content-wrapper h1::after {
   border-bottom: 2px solid var(--brand-primary, #ffea00);
 }
 
+/* custom-separator: 1px #ebebeb rule closing the section, aligned to the content width */
+main .section.custom-separator::after {
+  content: '';
+  display: block;
+  max-width: 1200px;
+  margin: 32px auto 0;
+  border-bottom: 1px solid #ebebeb;
+}
+
+@media (width >= 900px) {
+  main .section.custom-separator::after {
+    width: calc(100% - 64px);
+  }
+}
+
+@media (width < 900px) {
+  main .section.custom-separator::after {
+    width: calc(100% - 48px);
+  }
+}
+
 /* faq-aside: intro + accordion, then the contact aside; side by side from 900px */
 main .section.faq-aside .default-content-wrapper p {
   line-height: 2.5;

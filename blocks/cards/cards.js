@@ -367,7 +367,109 @@ async function decorateDynamic(block) {
   block.replaceChildren(ul);
 }
 
+/* Reads "<path prefix> | filter:<index column> | <limit>" (all parts after the prefix optional). */
+function readAdventuresConfig(block) {
+  const [rawPrefix = '', ...options] = block.textContent.split('|').map((part) => part.trim());
+  const link = block.querySelector('a[href]');
+  const config = {
+    prefix: link ? new URL(link.href, window.location.href).pathname : rawPrefix,
+    filter: 'activity',
+    limit: undefined,
+  };
+  options.forEach((option) => {
+    const [key, value] = option.split(':').map((part) => part.trim());
+    if (key.toLowerCase() === 'filter' && value) config.filter = value;
+    else if (/^\d+$/.test(key)) config.limit = parseInt(key, 10);
+  });
+  return config;
+}
+
+/* Index values may hold several entries ("Cycling, Travel"). */
+function splitValues(value) {
+  return (value || '').split(',').map((entry) => entry.trim()).filter(Boolean);
+}
+
+function showTab(block, tabs, selected) {
+  tabs.forEach((tab) => {
+    const active = tab.dataset.filter === selected;
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    tab.tabIndex = active ? 0 : -1;
+  });
+  block.querySelectorAll(':scope > ul > li').forEach((li) => {
+    const values = (li.dataset.filter || '').split('|');
+    li.hidden = selected !== '' && !values.includes(selected);
+  });
+}
+
+/* Filter tabs ("All" + one per value), built only when the index provides values. */
+function buildFilterTabs(block, pages, filter, list) {
+  const values = [...new Set(pages.flatMap((page) => splitValues(page[filter])))]
+    .sort((a, b) => a.localeCompare(b));
+  if (!values.length) return null;
+
+  const tablist = document.createElement('div');
+  tablist.className = 'cards-adventures-tabs';
+  tablist.setAttribute('role', 'tablist');
+  tablist.setAttribute('aria-label', 'Filter adventures');
+  const tabs = [['All', ''], ...values.map((value) => [value, value])].map(([label, value]) => {
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.className = 'cards-adventures-tab';
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-controls', list.id);
+    tab.dataset.filter = value;
+    tab.textContent = label;
+    tablist.append(tab);
+    return tab;
+  });
+
+  tablist.addEventListener('click', (e) => {
+    const tab = e.target.closest('.cards-adventures-tab');
+    if (tab) showTab(block, tabs, tab.dataset.filter);
+  });
+  tablist.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const current = tabs.indexOf(document.activeElement);
+    if (current < 0) return;
+    const next = tabs[(current + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    next.focus();
+    showTab(block, tabs, next.dataset.filter);
+  });
+  return { tablist, tabs };
+}
+
+/* Index-driven adventure cards with filter tabs built from an index column (default: activity). */
+async function decorateAdventures(block) {
+  const { prefix, filter, limit } = readAdventuresConfig(block);
+  block.replaceChildren();
+  if (!prefix) return;
+
+  const pages = await queryPages({ prefix, limit });
+  if (!pages.length) return;
+
+  const ul = document.createElement('ul');
+  ul.id = `cards-adventures-${Math.random().toString(36).slice(2, 8)}`;
+  pages.forEach((page) => {
+    const li = buildIndexCard(page);
+    li.dataset.filter = splitValues(page[filter]).join('|');
+    ul.append(li);
+  });
+
+  const filterTabs = buildFilterTabs(block, pages, filter, ul);
+  if (filterTabs) {
+    ul.setAttribute('role', 'tabpanel');
+    block.replaceChildren(filterTabs.tablist, ul);
+    showTab(block, filterTabs.tabs, '');
+  } else {
+    block.replaceChildren(ul);
+  }
+}
+
 export default async function decorate(block) {
+  if (block.classList.contains('adventures')) {
+    await decorateAdventures(block);
+    return;
+  }
   if (block.classList.contains('profile')) {
     decorateProfile(block);
     return;
