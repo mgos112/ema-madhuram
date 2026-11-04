@@ -405,6 +405,110 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "home",
+      "urls": [
+        "https://wknd.site/us/en.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en.html",
+      "description": "Home page: hero carousel with overlay content, featured article teaser, recent magazine articles, banner and adventures teasers",
+      "blocks": [
+        {
+          "name": "carousel-hero-img-boxed",
+          "instances": [
+            "main div.carousel.panelcontainer"
+          ]
+        },
+        {
+          "name": "columns-featured",
+          "instances": [
+            "main div.teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards-dynamic",
+          "instances": [
+            "main div.image-list.list"
+          ]
+        },
+        {
+          "name": "hero-boxed",
+          "instances": [
+            "main div.teaser.cmp-teaser--hero:not(.carousel div)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero carousel",
+          "selector": [
+            "main div.carousel.panelcontainer"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel-hero-img-boxed"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Featured article",
+          "selector": [
+            "main div.teaser.cmp-teaser--featured"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-featured"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "Recent Articles",
+          "selector": [
+            "main div.teaser.cmp-teaser--featured ~ div.title.cmp-title--underline"
+          ],
+          "style": "yellow-underline, primary-cta, custom-separator",
+          "blocks": [
+            "cards-dynamic"
+          ],
+          "defaultContent": [
+            "main div.title.cmp-title--underline h2",
+            "main div.button a"
+          ]
+        },
+        {
+          "id": "section-4",
+          "name": "Next Adventures banner",
+          "selector": [
+            "main div.title.cmp-title--underline ~ div.title.cmp-title--underline"
+          ],
+          "style": "yellow-underline",
+          "blocks": [
+            "hero-boxed"
+          ],
+          "defaultContent": [
+            "main div.title.cmp-title--underline h2"
+          ]
+        },
+        {
+          "id": "section-5",
+          "name": "Where do you want to go?",
+          "selector": [
+            "main div.title:not(.cmp-title--underline)"
+          ],
+          "style": "primary-cta, custom-separator",
+          "blocks": [
+            "cards-dynamic"
+          ],
+          "defaultContent": [
+            "main div.title h3",
+            "main div.button a"
+          ]
+        }
+      ]
     }
   ]
 }
