@@ -156,6 +156,15 @@ export default function decorate(block) {
     }
   });
 
+  // pages without a title (e.g. the home page) use the first slide heading as their h1
+  const firstHeading = slidesWrapper.querySelector('.carousel-slide-content :is(h2, h3, h4, h5, h6)');
+  if (firstHeading && !document.querySelector('main h1')) {
+    const h1 = document.createElement('h1');
+    [...firstHeading.attributes].forEach(({ name, value }) => h1.setAttribute(name, value));
+    h1.append(...firstHeading.childNodes);
+    firstHeading.replaceWith(h1);
+  }
+
   block.textContent = '';
   container.append(slidesWrapper);
   block.append(container);

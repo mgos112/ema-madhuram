@@ -357,6 +357,30 @@ main .section.yellow-underline:not(.aside) .default-content-wrapper h1::after {
   border-bottom: 2px solid var(--brand-primary, #ffea00);
 }
 
+/* primary-cta: a section's trailing link (e.g. "All Articles") becomes a yellow button;
+   teaser CTAs (boxed carousel, boxed hero) share the look with tighter padding */
+main .carousel.boxed,
+main .hero.boxed {
+  --cta-padding: 14px 35px;
+}
+
+main :is(.section.primary-cta > .default-content-wrapper:last-of-type, .carousel.boxed .carousel-slide-content, .hero.boxed)
+  p:last-child:is(:has(> a:only-child), :has(> :is(strong, em):only-child > a:only-child)) a {
+  display: inline-block;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: var(--cta-padding, 16px 32px);
+  background-color: var(--brand-primary, #ffea00);
+  color: #202020;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 /* custom-separator: 1px #ebebeb rule closing the section, aligned to the content width */
 main .section.custom-separator::after {
   content: '';
