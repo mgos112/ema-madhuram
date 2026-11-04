@@ -21,6 +21,6 @@
     }
   ],
   "memberVariantIds": [],
-  "usage": "Side-by-side content; featured article teaser on the magazine page; trip facts (Activity, Adventure Type, Trip Length, Group Size, Difficulty, Price) on adventure detail pages.",
+  "usage": "Side-by-side content; featured article teaser on the magazine page and the home page (/us/en, last used 2026-11-04); trip facts (Activity, Adventure Type, Trip Length, Group Size, Difficulty, Price) on adventure detail pages.",
   "reuseGuidance": "Use Columns (Featured) for an image + grey text panel teaser. Use Columns (Spec) for label/value fact lists. Use plain columns for generic side-by-side content."
 }
