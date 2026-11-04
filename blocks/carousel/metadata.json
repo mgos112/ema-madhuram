@@ -1,0 +1,22 @@
+{
+  "variantName": "carousel",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "purpose": "image (and optional text) slides with prev/next buttons and dot indicators below the slides, keyboard accessible (left/right arrow keys when the carousel has focus)",
+    "description": "Base: slides fill the width at min(50vw, viewport minus nav); controls bar below with centred dots and prev/next arrows on the right; controls only with 2+ slides. hero-img: full-width image 400px tall (object-fit cover) at all widths, black arrow buttons bottom right below the image, 10px round dots, controls shown even with a single slide."
+  },
+  "contentPattern": {
+    "structure": "one row per slide; cell 1 = image, optional cell 2 = slide content (dropped when empty, extra cells merged into it); empty rows are skipped",
+    "source": "https://wknd.site/us/en/adventures/bali-surf-camp.html"
+  },
+  "options": [
+    {
+      "class": "hero-img",
+      "label": "Hero Img"
+    }
+  ],
+  "memberVariantIds": [],
+  "usage": "Hero image slideshow at the top of adventure detail pages, e.g. https://wknd.site/us/en/adventures/bali-surf-camp.html (1 to 3 image-only slides).",
+  "reuseGuidance": "Use Carousel (Hero Img) for full-width image-only page heroes that keep their controls even with one slide. Use the plain carousel for slides with overlay text where controls only matter with several slides."
+}

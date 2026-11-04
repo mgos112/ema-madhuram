@@ -347,9 +347,9 @@ main .section.highlight {
   padding: 40px 0;
 }
 
-/* yellow-underline: short brand rule under default-content h2s (and the FAQs page title) */
+/* yellow-underline: short brand rule under default-content h2s and page titles (article titles in aside sections stay plain) */
 main .section.yellow-underline .default-content-wrapper h2::after,
-main .section.yellow-underline.faq-aside .default-content-wrapper h1::after {
+main .section.yellow-underline:not(.aside) .default-content-wrapper h1::after {
   content: '';
   display: block;
   width: 84px;
@@ -375,6 +375,33 @@ main .section.custom-separator::after {
 @media (width < 900px) {
   main .section.custom-separator::after {
     width: calc(100% - 48px);
+  }
+}
+
+/* adventure-body: trip facts (columns spec) on the left, tabs on the right from 900px */
+@media (width >= 900px) {
+  main > .section.adventure-body {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 3fr);
+    column-gap: 48px;
+    align-items: start;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  main > .section.adventure-body > div {
+    grid-column: 1;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main > .section.adventure-body > .tabs-wrapper {
+    grid-column: 2;
+    grid-row: 1 / span 99;
   }
 }
 

@@ -315,6 +315,81 @@
           ]
         }
       ]
+    },
+    {
+      "name": "adventure",
+      "urls": [
+        "https://wknd.site/us/en/adventures/bali-surf-camp.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+      "description": "Adventure detail page: breadcrumb, hero image, title, trip facts (activity, type, length, group size, difficulty, price) and Overview / Itinerary / What to Bring tabs",
+      "blocks": [
+        {
+          "name": "breadcrumb",
+          "instances": [
+            "main div.breadcrumb"
+          ]
+        },
+        {
+          "name": "carousel-hero-img",
+          "instances": [
+            "main div.carousel.panelcontainer"
+          ]
+        },
+        {
+          "name": "columns-spec",
+          "instances": [
+            "main div.aem-Grid--3 > div.contentfragment"
+          ]
+        },
+        {
+          "name": "tabs-adventure",
+          "instances": [
+            "main div.tabs.panelcontainer"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Breadcrumb and hero carousel",
+          "selector": [
+            "main div.breadcrumb"
+          ],
+          "style": null,
+          "blocks": [
+            "breadcrumb",
+            "carousel-hero-img"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Title",
+          "selector": [
+            "main div.title.cmp-title--underline"
+          ],
+          "style": "yellow-underline",
+          "blocks": [],
+          "defaultContent": [
+            "main div.title.cmp-title--underline h1"
+          ]
+        },
+        {
+          "id": "section-3",
+          "name": "Trip facts and tabs",
+          "selector": [
+            "main main.container:has(> .cmp-container > .aem-Grid--3)",
+            "main div.title.cmp-title--underline + main.container"
+          ],
+          "style": "adventure-body",
+          "blocks": [
+            "columns-spec",
+            "tabs-adventure"
+          ],
+          "defaultContent": []
+        }
+      ]
     }
   ]
 }

@@ -9,6 +9,13 @@
  */
 export default function transform(hookName, element, payload) {
   if (hookName === 'beforeTransform') {
+    // An empty share widget leaves its small (h5) heading, e.g. "Share this Adventure", with nothing under it.
+    element.querySelectorAll('main div.sharing').forEach((sharing) => {
+      if (sharing.textContent.trim()) return;
+      const title = sharing.previousElementSibling;
+      if (title && title.matches('div.title') && title.querySelector('h5')) title.remove();
+    });
+
     WebImporter.DOMUtils.remove(element, [
       // Header / footer experience fragments
       'header.cmp-experiencefragment--header',

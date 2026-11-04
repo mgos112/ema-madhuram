@@ -1,0 +1,22 @@
+{
+  "variantName": "tabs",
+  "baseBlock": "tabs",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "purpose": "tabbed panels with an ARIA tablist (role=tab/tabpanel, aria-selected, arrow/Home/End key navigation); the first tab is active",
+    "description": "Base: boxed tab buttons on a light background, bordered panel. adventure: tab labels 14px uppercase, 8px 16px padding, no row border; active tab #202020 with white text, inactive transparent with #202020 text, no hover change. Panel paragraphs 18px, line-height 2.5, justified, 13.5px bottom margin; images full panel width; lists without bullets, 12px left padding, 36px line-height."
+  },
+  "contentPattern": {
+    "structure": "cell 1 = tab label (plain text), cell 2 = panel rich text (paragraphs, H2/H3, images, lists); a label with no content keeps an empty panel, extra cells merge into the panel, fully empty rows are dropped",
+    "source": "https://wknd.site/us/en/adventures/bali-surf-camp.html"
+  },
+  "options": [
+    {
+      "class": "adventure",
+      "label": "Adventure"
+    }
+  ],
+  "memberVariantIds": [],
+  "usage": "Overview / Itinerary / What to Bring panels on adventure detail pages, e.g. https://wknd.site/us/en/adventures/bali-surf-camp.html.",
+  "reuseGuidance": "Use Tabs (Adventure) for flat text-heavy tabbed content with a dark active tab. Use the plain tabs for boxed panels."
+}

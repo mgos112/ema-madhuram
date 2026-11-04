@@ -58,3 +58,31 @@
     flex: 2;
   }
 }
+
+/* Spec variant: single-column list of trip facts, label above value. */
+.columns.spec .columns-spec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22.5px;
+  margin: 0;
+  font-family: var(--body-font-family);
+}
+
+.columns.spec .columns-spec-item {
+  padding-left: 18px;
+  border-left: 5px solid #ebebeb;
+}
+
+.columns.spec .columns-spec-item dt {
+  color: #696969;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.columns.spec .columns-spec-item dd {
+  margin: 0;
+  color: #202020;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
