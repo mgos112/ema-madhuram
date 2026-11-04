@@ -253,6 +253,68 @@
           ]
         }
       ]
+    },
+    {
+      "name": "adventures-landing",
+      "urls": [
+        "https://wknd.site/us/en/adventures.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures.html",
+      "description": "Adventures landing page: intro and a tabbed, filterable list of adventure cards (All plus one tab per activity)",
+      "blocks": [
+        {
+          "name": "hero-boxed",
+          "instances": [
+            "main div.teaser.cmp-teaser--hero"
+          ]
+        },
+        {
+          "name": "cards-adventures",
+          "instances": [
+            "main div.tabs.panelcontainer"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Page title",
+          "selector": [
+            "main div.title:not(.cmp-title--underline)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "main div.title:not(.cmp-title--underline) h1"
+          ]
+        },
+        {
+          "id": "section-2",
+          "name": "Intro teaser",
+          "selector": [
+            "main div.teaser.cmp-teaser--hero"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-boxed"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "Current Adventures",
+          "selector": [
+            "main div.title.cmp-title--underline"
+          ],
+          "style": "yellow-underline, custom-separator",
+          "blocks": [
+            "cards-adventures"
+          ],
+          "defaultContent": [
+            "main div.title.cmp-title--underline h2"
+          ]
+        }
+      ]
     }
   ]
 }
