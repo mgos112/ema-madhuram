@@ -425,7 +425,7 @@ var CustomImportScript = (() => {
       {
         "name": "columns-spec",
         "instances": [
-          "main div.aem-Grid--3 > div.contentfragment"
+          "main div.contentfragment:has(> .cmp-contentfragment > dl.cmp-contentfragment__elements)"
         ]
       },
       {
@@ -465,8 +465,8 @@ var CustomImportScript = (() => {
         "id": "section-3",
         "name": "Trip facts and tabs",
         "selector": [
-          "main main.container:has(> .cmp-container > .aem-Grid--3)",
-          "main div.title.cmp-title--underline + main.container"
+          "main div.title.cmp-title--underline + main.container",
+          "main main.container:has(> .cmp-container > .aem-Grid--3)"
         ],
         "style": "adventure-body",
         "blocks": [
