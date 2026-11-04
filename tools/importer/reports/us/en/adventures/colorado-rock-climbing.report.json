@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/adventures/colorado-rock-climbing.html",
+  "path": "us/en/adventures/colorado-rock-climbing",
+  "timestamp": "2026-11-04T08:29:46.192Z",
+  "title": "Colorado Rock Climbing",
+  "template": "adventure",
+  "blocks": [
+    "breadcrumb",
+    "carousel-hero-img",
+    "columns-spec",
+    "tabs-adventure"
+  ]
+}

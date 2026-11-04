@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/adventures/climbing-new-zealand.html",
+  "path": "us/en/adventures/climbing-new-zealand",
+  "timestamp": "2026-11-04T08:29:41.092Z",
+  "title": "Climbing New Zealand",
+  "template": "adventure",
+  "blocks": [
+    "breadcrumb",
+    "carousel-hero-img",
+    "columns-spec",
+    "tabs-adventure"
+  ]
+}

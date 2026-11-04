@@ -319,7 +319,22 @@
     {
       "name": "adventure",
       "urls": [
-        "https://wknd.site/us/en/adventures/bali-surf-camp.html"
+        "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+        "https://wknd.site/us/en/adventures/beervana-portland.html",
+        "https://wknd.site/us/en/adventures/climbing-new-zealand.html",
+        "https://wknd.site/us/en/adventures/colorado-rock-climbing.html",
+        "https://wknd.site/us/en/adventures/cycling-southern-utah.html",
+        "https://wknd.site/us/en/adventures/cycling-tuscany.html",
+        "https://wknd.site/us/en/adventures/downhill-skiing-wyoming.html",
+        "https://wknd.site/us/en/adventures/gastronomic-marais-tour.html",
+        "https://wknd.site/us/en/adventures/napa-wine-tasting.html",
+        "https://wknd.site/us/en/adventures/riverside-camping-australia.html",
+        "https://wknd.site/us/en/adventures/ski-touring-mont-blanc.html",
+        "https://wknd.site/us/en/adventures/surf-camp-costa-rica.html",
+        "https://wknd.site/us/en/adventures/tahoe-skiing.html",
+        "https://wknd.site/us/en/adventures/west-coast-cycling.html",
+        "https://wknd.site/us/en/adventures/whistler-mountain-biking.html",
+        "https://wknd.site/us/en/adventures/yosemite-backpacking.html"
       ],
       "representativeUrl": "https://wknd.site/us/en/adventures/bali-surf-camp.html",
       "description": "Adventure detail page: breadcrumb, hero image, title, trip facts (activity, type, length, group size, difficulty, price) and Overview / Itinerary / What to Bring tabs",
@@ -339,7 +354,7 @@
         {
           "name": "columns-spec",
           "instances": [
-            "main div.aem-Grid--3 > div.contentfragment"
+            "main div.contentfragment:has(> .cmp-contentfragment > dl.cmp-contentfragment__elements)"
           ]
         },
         {
@@ -379,8 +394,8 @@
           "id": "section-3",
           "name": "Trip facts and tabs",
           "selector": [
-            "main main.container:has(> .cmp-container > .aem-Grid--3)",
-            "main div.title.cmp-title--underline + main.container"
+            "main div.title.cmp-title--underline + main.container",
+            "main main.container:has(> .cmp-container > .aem-Grid--3)"
           ],
           "style": "adventure-body",
           "blocks": [
