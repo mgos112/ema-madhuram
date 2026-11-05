@@ -1,0 +1,43 @@
+# Query index definition for ema-madhuram (reference copy).
+#
+# The LIVE setting is the site's configuration service on tools.aem.live:
+#   https://admin.hlx.page/config/mgos112/sites/ema-madhuram/content/query.yaml
+# Edge Delivery reads the index definition from there, not from this file, so
+# editing this file alone does not change the index. Update both in the same
+# pull request when columns change, and keep the content below identical to
+# the live setting.
+#
+# Used by:
+#   scripts/query-index.js (queryPages) -> blocks/cards (dynamic, adventures)
+#   title, image, description: card content
+#   category: magazine / adventures grouping
+#   activity: Adventures filter tabs (from the page's "Activity" metadata)
+version: 1
+indices:
+  default:
+    include:
+      - '/us/en/**'
+    exclude:
+      - '**/nav'
+      - '**/footer'
+      - '**/fragments/**'
+    target: /query-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: match(attribute(el, "content"), "https:\/\/[^/]+(\/.*)")
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+      category:
+        select: none
+        value: match(path, "/us/en/([^/]+)/")
+      activity:
+        select: head > meta[name="activity"]
+        value: attribute(el, "content")
