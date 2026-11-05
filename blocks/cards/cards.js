@@ -310,13 +310,33 @@ function decorateMemberOnly(block) {
   block.replaceChildren(ul);
 }
 
-/* Reads "<path prefix> | <limit>" from the block; the prefix may also be authored as a link. */
+/* Index-driven lists show the most recently updated pages first unless "sort:index" is authored. */
+const DEFAULT_SORT = 'lastModified';
+
+/* "sort:<index column>" picks the sort column; "sort:index" keeps the index (publish) order. */
+function readSort(value) {
+  if (!value) return DEFAULT_SORT;
+  return value.toLowerCase() === 'index' ? undefined : value;
+}
+
+/*
+ * Reads "<path prefix> | <limit> | sort:<column>" from the block (parts after the prefix are
+ * optional and in any order); the prefix may also be authored as a link.
+ */
 function readDynamicConfig(block) {
-  const [rawPrefix = '', rawLimit = ''] = block.textContent.split('|').map((part) => part.trim());
+  const [rawPrefix = '', ...options] = block.textContent.split('|').map((part) => part.trim());
   const link = block.querySelector('a[href]');
-  const prefix = link ? new URL(link.href, window.location.href).pathname : rawPrefix;
-  const limit = parseInt(rawLimit, 10);
-  return { prefix, limit: Number.isNaN(limit) ? undefined : limit };
+  const config = {
+    prefix: link ? new URL(link.href, window.location.href).pathname : rawPrefix,
+    sort: DEFAULT_SORT,
+    limit: undefined,
+  };
+  options.forEach((option) => {
+    const [key, value] = option.split(':').map((part) => part.trim());
+    if (key.toLowerCase() === 'sort') config.sort = readSort(value);
+    else if (/^\d+$/.test(key)) config.limit = parseInt(key, 10);
+  });
+  return config;
 }
 
 function buildIndexCard(page) {
@@ -354,12 +374,12 @@ function buildIndexCard(page) {
 
 /* Index-driven cards: lists pages below a path prefix from the query index. */
 async function decorateDynamic(block) {
-  const { prefix, limit } = readDynamicConfig(block);
+  const { prefix, sort, limit } = readDynamicConfig(block);
   // Never show the raw configuration, even if the index is unavailable.
   block.replaceChildren();
   if (!prefix) return;
 
-  const pages = await queryPages({ prefix, limit });
+  const pages = await queryPages({ prefix, sort, limit });
   if (!pages.length) return;
 
   const ul = document.createElement('ul');
@@ -367,18 +387,23 @@ async function decorateDynamic(block) {
   block.replaceChildren(ul);
 }
 
-/* Reads "<path prefix> | filter:<index column> | <limit>" (all parts after the prefix optional). */
+/*
+ * Reads "<path prefix> | filter:<index column> | sort:<column> | <limit>"
+ * (all parts after the prefix optional).
+ */
 function readAdventuresConfig(block) {
   const [rawPrefix = '', ...options] = block.textContent.split('|').map((part) => part.trim());
   const link = block.querySelector('a[href]');
   const config = {
     prefix: link ? new URL(link.href, window.location.href).pathname : rawPrefix,
     filter: 'activity',
+    sort: DEFAULT_SORT,
     limit: undefined,
   };
   options.forEach((option) => {
     const [key, value] = option.split(':').map((part) => part.trim());
     if (key.toLowerCase() === 'filter' && value) config.filter = value;
+    else if (key.toLowerCase() === 'sort') config.sort = readSort(value);
     else if (/^\d+$/.test(key)) config.limit = parseInt(key, 10);
   });
   return config;
@@ -440,11 +465,13 @@ function buildFilterTabs(block, pages, filter, list) {
 
 /* Index-driven adventure cards with filter tabs built from an index column (default: activity). */
 async function decorateAdventures(block) {
-  const { prefix, filter, limit } = readAdventuresConfig(block);
+  const {
+    prefix, filter, sort, limit,
+  } = readAdventuresConfig(block);
   block.replaceChildren();
   if (!prefix) return;
 
-  const pages = await queryPages({ prefix, limit });
+  const pages = await queryPages({ prefix, sort, limit });
   if (!pages.length) return;
 
   const ul = document.createElement('ul');
