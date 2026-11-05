@@ -88,7 +88,7 @@ header nav .nav-locale-toggle picture {
 
 header nav .nav-locale-toggle img {
   position: absolute;
-  top: -1px;
+  top: -3px; /* the flag is drawn in the middle of a square image; centre it on the label */
   left: 0;
   width: 25px;
   height: auto;
