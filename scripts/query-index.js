@@ -45,19 +45,32 @@ function normalizePrefix(prefix) {
   return path.endsWith('/') ? path : `${path}/`;
 }
 
+/* Numeric value of an index column for sorting (timestamps, numbers or date strings). */
+function sortValue(row, column) {
+  const value = row[column];
+  if (value === undefined || value === '') return 0;
+  const number = Number(value);
+  if (Number.isFinite(number)) return number;
+  const date = Date.parse(value);
+  return Number.isNaN(date) ? 0 : date;
+}
+
 /**
  * Lists pages from the query index.
  * @param {Object} [options]
  * @param {string} [options.prefix] Only pages below this path (the prefix page itself is excluded)
  * @param {boolean} [options.directOnly] Only direct children of the prefix
  * @param {string} [options.category] Only pages whose `category` matches
- * @param {number} [options.limit] Maximum number of pages
+ * @param {string} [options.sort] Index column to sort by, highest/newest first (e.g. lastModified);
+ *   pages with equal values keep their index order. Omit to keep the index order.
+ * @param {number} [options.limit] Maximum number of pages (applied after sorting)
  * @returns {Promise<Object[]>}
  */
 export async function queryPages({
   prefix = '/',
   directOnly = false,
   category,
+  sort,
   limit,
 } = {}) {
   const base = normalizePrefix(prefix);
@@ -70,5 +83,6 @@ export async function queryPages({
     if (category && (row.category || '').toLowerCase() !== category.toLowerCase()) return false;
     return true;
   });
+  if (sort) pages.sort((a, b) => sortValue(b, sort) - sortValue(a, sort));
   return limit > 0 ? pages.slice(0, limit) : pages;
 }

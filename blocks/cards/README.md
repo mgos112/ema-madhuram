@@ -49,9 +49,10 @@ Index-driven article teasers (source: "All Articles" on https://wknd.site/us/en/
 
 | Cell |
 | --- |
-| Path prefix of the pages to list, optionally followed by `\| <limit>`, e.g. `/us/en/magazine` or `/us/en/magazine \| 4` |
+| Path prefix of the pages to list, optionally followed by `\| <limit>` and `\| sort:<column>`, e.g. `/us/en/magazine` or `/us/en/magazine \| 4` |
 
-- Pages come from the query index (`/query-index.json`, via `scripts/query-index.js` `queryPages({ prefix, limit })`). The prefix page itself and the current page are excluded.
+- Pages come from the query index (`/query-index.json`, via `scripts/query-index.js` `queryPages({ prefix, sort, limit })`). The prefix page itself and the current page are excluded.
+- Order: most recently updated first (index column `lastModified`, newest first), then the limit is applied. `sort:<column>` sorts by another index column instead; `sort:index` keeps the index (first-published) order. The same options work on `Cards (Adventures)`.
 - Each card: linked image, linked uppercase title (h3), single-line description cut off with an ellipsis.
 - The authored configuration is never shown. If the index is missing or has no matching pages, the block renders nothing.
 - The prefix can also be authored as a link.
