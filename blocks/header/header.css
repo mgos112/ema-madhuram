@@ -77,12 +77,18 @@ header nav .nav-locale-toggle {
   font: inherit;
   line-height: 18px;
   text-transform: uppercase;
+  vertical-align: top;
   cursor: pointer;
+}
+
+/* previewed content wraps the flag in <picture>; keep it out of the button's layout */
+header nav .nav-locale-toggle picture {
+  display: contents;
 }
 
 header nav .nav-locale-toggle img {
   position: absolute;
-  top: -1px;
+  top: -3px; /* the flag is drawn in the middle of a square image; centre it on the label */
   left: 0;
   width: 25px;
   height: auto;
